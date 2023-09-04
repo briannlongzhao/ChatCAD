@@ -10,6 +10,7 @@ from datetime import datetime
 # os.environ["http_proxy"]="http://127.0.0.1.1:7890"
 # os.environ["https_proxy"]="http://127.0.0.1:7890"
 
+os.environ["ENDPOINT_URL"] = "https://gcrgpt4aoai9c.openai.azure.com/openai/deployments/gpt-35-turbo/chat/completions?api-version=2023-03-15-preview"
 
 title = """<h1 align="center">ChatCAD plus</h1>"""
 description = """**这是ChatCAD-plus的早期测试版本，欢迎任何反馈和贡献<br>-将胸片、牙片等图像上传至聊天框，即可获得ChatCAD-plus对该影像的分析<br>-可以继续与ChatCAD-plus交流，进一步了解可能的病症<br>-ChatCAD-plus会在必要的时候给出相关资料的链接**"""
