@@ -117,6 +117,7 @@ class gpt_bot(base_bot):
                 time.sleep(10)
                 continue
             break
+        time.sleep(5)
         return message
     
     def start(self):
@@ -296,9 +297,9 @@ class gpt_bot(base_bot):
         numbers = re.findall(r'\d+', check_message)
         if len(numbers) != 1:
             if "yes" in check_message.lower():
-                numbers = [1]
+                numbers = '1'
             else:
-                numbers = [0]
+                numbers = '0'
         assert len(numbers)==1, f"{numbers} length is not 1"
         check=eval(numbers[0])
         if check==0:

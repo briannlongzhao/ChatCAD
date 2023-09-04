@@ -13,6 +13,6 @@ chatbot.start()
 
 image_path = "imgs/examples/chest.jpg"
 
-report = chatbot.report_en(image_path)
+report, _ = chatbot.report_en(image_path)
 
 print(report)
