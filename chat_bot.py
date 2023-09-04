@@ -284,6 +284,60 @@ class gpt_bot(base_bot):
             message= response+f"<br><br>注：相关资料来自默沙东医疗手册专业版 [{query}]({needed_site})"+""
         return message
 
+
+    def chat_en(self,message: str, ref_record: str):
+        # check if it is a clinical-related input.
+        check_prompt="Is user's input asking about medical domain problems? Reply 1 if yes, reply 0 if no or not sure，The length of response is 1，Please do not include any other unnecessary responses."
+        check_message=self.chat_with_gpt(f'{ref_record}{check_prompt}\n{message}')
+        # check_message=self.chat_with_gpt(check_prompt+'\n'+message)
+        print(f"check message: {check_message}")
+        numbers = re.findall(r'\d+', check_message)
+        assert len(numbers)==1
+        check=eval(numbers[0])
+        if check==0:
+            ans=self.chat_with_gpt(f"{ref_record}\nuser:**Answer in English**\n"+message)
+            return ans
+        
+        refine_prompt="Please summarize the patient's questions based on the following content and indicate their full name for the disease involved:\n"
+        refined_message=self.chat_with_gpt(ref_record+'\n'+refine_prompt+message)
+        # refined_message=self.chat_with_gpt(refine_prompt+message)
+        topic_range=query_range(self.sent_model,refined_message,k=5)
+        if len(topic_range)==0:
+            response = self.chat_with_gpt(f"{ref_record}\nuser:**Answer in English**\n"+message)
+            response +="<br>Note: No clear reference found in MSD database, please use with caution"
+            return response
+        
+        refine_prompt="Please summarize the patient's query according to the following content:\n"
+        refined_message=self.chat_with_gpt(ref_record+'\n'+refine_prompt+message)
+        # refined_message=self.chat_with_gpt(refine_prompt+message)
+        ret=answer_quest(refined_message,api_key=self.api_key,topic_base_dict=topic_range)
+        if ret==None:
+            # response = self.chat_with_gpt(refined_message)
+            # response = self.chat_with_gpt(message)
+            response = self.chat_with_gpt(f"{ref_record}\nuser:**Answer in English**\n"+message)
+            response +="<br>Note: No clear reference found in MSD database, please use with caution"
+            message=response
+        else:
+            query,knowledge=ret
+            knowledge=knowledge.replace("\n\n","\n")
+            # needed_site=ret_website(query)
+            needed_site=self.ret_local(query,0)
+
+            try:
+                index = knowledge.index("：")
+            except ValueError:
+                index = -1
+            knowledge = knowledge[index+1:]
+
+            # chat_message=f"\n请参考以下知识来解答病人的问题“{message}”并给出分析，切记不要机械地重复以下知识：\n"+knowledge
+            chat_message=f"{ref_record}\nuser:**Answer in English**\n请参考以下知识来解答病人的问题“{message}”并给出分析，请注意保持语句通顺\n[{knowledge}]"
+            response = self.chat_with_gpt(chat_message)
+            print("ChatCAD+'s answer:\n")
+            print(response)
+            # message = response+f"<br><br>注：相关资料来自默沙东医疗手册专业版 <a href={needed_site}, class='underline',style='#c82423' >{query}</a>"
+            message= response+f"<br><br>注：相关资料来自默沙东医疗手册专业版 [{query}]({needed_site})"+""
+        return message
+
 #  TODO: Integrate with DoctorGLM https://github.com/xionghonglin/DoctorGLM
 class glm_bot(base_bot):
     def __init__(self, model_path):
