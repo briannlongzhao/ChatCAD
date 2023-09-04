@@ -112,7 +112,8 @@ class gpt_bot(base_bot):
             print(f"talking {iteration}......")
             try:
                 message=self.agent.ask(prompt)
-            except:
+            except Exception as e:
+                print(e)
                 time.sleep(10)
                 continue
             break
