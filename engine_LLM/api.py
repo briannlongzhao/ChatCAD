@@ -85,7 +85,7 @@ class Chat_api:
         #     os.environ["all_proxy"] = proxy
         
         # self.chatbot = Chatbot(api_key=api_key,proxy=proxy)
-        self.chatbot = Chatbot(api_key=api_key,proxy='http://127.0.0.1:7890')
+        self.chatbot = Chatbot(api_key=api_key)
         # for data in chatbot.ask_stream("Hello world"):
             # print(data, end="", flush=True)
         self.now_query=""
