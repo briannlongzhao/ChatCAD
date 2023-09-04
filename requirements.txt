@@ -1,8 +1,8 @@
 beautifulsoup4==4.12.2
-clip==1.0
+git+https://github.com/openai/CLIP.git
 easydict==1.10
 google==3.0.0
-gradio==3.31.0
+gradio==3.37.0
 jieba==0.42.1
 langchain==0.0.180
 modelscope==1.5.2
@@ -20,3 +20,4 @@ torch==2.0.1
 torchvision==0.15.2
 tqdm==4.65.0
 transformers==4.26.1
+sentencepiece
