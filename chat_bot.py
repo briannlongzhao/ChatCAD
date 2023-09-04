@@ -298,7 +298,7 @@ class gpt_bot(base_bot):
             if "yes" in check_message.lower():
                 numbers = [1]
             else:
-                numbers = [0]`
+                numbers = [0]
         assert len(numbers)==1, f"{numbers} length is not 1"
         check=eval(numbers[0])
         if check==0:
