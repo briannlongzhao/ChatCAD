@@ -331,7 +331,7 @@ class gpt_bot(base_bot):
             knowledge = knowledge[index+1:]
 
             # chat_message=f"\n请参考以下知识来解答病人的问题“{message}”并给出分析，切记不要机械地重复以下知识：\n"+knowledge
-            chat_message=f"{ref_record}\nuser:**Answer in English**\nPlease refer to the following knowledge to answer patients' questions"{message}"and provide analysis, please be fluent and coherent\n[{knowledge}]"
+            chat_message=f"{ref_record}\nuser:**Answer in English**\nPlease refer to the following knowledge to answer patients' questions\"{message}\"and provide analysis, please be fluent and coherent\n[{knowledge}]"
             response = self.chat_with_gpt(chat_message)
             print("ChatCAD+'s answer:\n")
             print(response)
