@@ -293,7 +293,7 @@ class gpt_bot(base_bot):
         # check_message=self.chat_with_gpt(check_prompt+'\n'+message)
         print(f"check message: {check_message}")
         numbers = re.findall(r'\d+', check_message)
-        assert len(numbers)==1, numbers
+        assert len(numbers)==1, f"Assertion error: {numbers} length is not 1"
         check=eval(numbers[0])
         if check==0:
             ans=self.chat_with_gpt(f"{ref_record}\nuser:**Answer in English**\n"+message)
