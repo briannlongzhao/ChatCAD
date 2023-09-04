@@ -287,6 +287,7 @@ class gpt_bot(base_bot):
 
 
     def chat_en(self,message: str, ref_record: str):
+        print(f"\nmessage: {message}\n")
         # check if it is a clinical-related input.
         check_prompt="Is user's input asking about medical domain problem? Respond 1 if yes, respond 0 if no or not sure. Make sure the length of response is 1, and please do not include any other unnecessary responses."
         check_message=self.chat_with_gpt(f'{ref_record}{check_prompt}\n{message}')
