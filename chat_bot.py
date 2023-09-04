@@ -287,14 +287,19 @@ class gpt_bot(base_bot):
 
 
     def chat_en(self,message: str, ref_record: str):
-        print(f"\ref_record: {ref_record}\n")
+        print(f"\nref_record: {ref_record}\n")
         # check if it is a clinical-related input.
         check_prompt="Is user's input asking about medical domain problem? Respond 1 if yes, respond 0 if no or not sure. Make sure the length of response is 1, and please do not include any other unnecessary responses."
         check_message=self.chat_with_gpt(f'{ref_record}{check_prompt}\n{message}')
         # check_message=self.chat_with_gpt(check_prompt+'\n'+message)
         print(f"check message: {check_message}")
         numbers = re.findall(r'\d+', check_message)
-        assert len(numbers)==1, f"Assertion error: {numbers} length is not 1"
+        if len(numbers) != 1:
+            if "yes" in check_message.lower():
+                numbers = [1]
+            else:
+                numbers = [0]`
+        assert len(numbers)==1, f"{numbers} length is not 1"
         check=eval(numbers[0])
         if check==0:
             ans=self.chat_with_gpt(f"{ref_record}\nuser:**Answer in English**\n"+message)
