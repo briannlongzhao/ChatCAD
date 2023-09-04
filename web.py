@@ -37,9 +37,10 @@ def chatcad(history, message_history):
             response = chatbot_bindings.chat(prompt,ref_record)
             message_history += [{"role": "user", "content": user_message}]
         else:
-            # response,modality = chatbot_bindings.report_zh(history[-1][0]['name'])
-            response,modality = chatbot_bindings.report_zh(history[-1][0][0])
-            message_history[-1]= {"role": "user", "content": f"用户上传了一张{modality}并请求诊断结果。"}
+            # response,modality = chatbot_bindings.report_en(history[-1][0]['name'])
+            response,modality = chatbot_bindings.report_en(history[-1][0][0])
+            message_history[-1]= {"role": "user", "content": f"User uploads a {modality} and asks for a diagnosis result"}
+            print(message_history[-1])
 
         history[-1][1] = response
         message_history += [{"role": "assistant", "content": response}]

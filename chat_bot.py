@@ -168,6 +168,29 @@ class gpt_bot(base_bot):
         else:
             return refined_report
 
+
+    def report_cxr_en(self,img_path, mode:str='run'):
+        img1,img2=getJFImg(img_path,self.imgcfg) 
+        text_report=self.reporter.report(img1)[0]
+        
+        # text_report=self.radio_en_zh(text_report)  # Disable translation
+        prob=JFinfer(self.img_model,img2,self.imgcfg)
+        converter=prob2text(prob,fivedisease)
+        # default setting: promptB
+        res=converter.promptB()
+        prompt_report_en=res+" Network B generated report:"+text_report
+        awesomePrompt_en="\nRefine the report of Network B based on results from Network A. Please do not mention Network A and \
+            Network B. Suppose you are a doctor writing findings for a chest x-ray report."
+        prompt_report_en=prompt_report_en+awesomePrompt_en
+        print("Refine CXR reports...")
+        refined_report = self.chat_with_gpt(prompt_report_en)
+
+        if mode=='debug':
+            return text_report,refined_report,prob.detach().cpu().numpy().tolist()
+        else:
+            return refined_report
+
+
     # def report_dental_zh(self,img_path):
     #     txt_prompt = Score2txt(self.dental_net.excution(img_path)).promptGeneration()
     #     return txt_prompt
@@ -188,8 +211,25 @@ class gpt_bot(base_bot):
         else:
             print("error!")
             return
-        
 
+
+    def report_en(self,img_path, mode:str='run'):
+        # identify modality 
+        index=self.identifier.identify(img_path)
+        # call ModalitySpecificModel 
+        if index==0:
+            return self.report_cxr_en(img_path,mode),self.modality[index]
+        elif index==1:
+            # return self.report_dental_zh(img_path)
+            # The source code of the CAD network for dental x-rays is currently not planned to be open-sourced 
+            # You can try it in the future online version of ChatCAD+.
+            return "Tooth CAD not publicly available!", self.modality[index]
+        elif index==2:
+            return "Knee CAD not publicly available!", self.modality[index]
+        else:
+            print("error!")
+            return
+        
 
     def chat(self,message: str, ref_record: str):
         # check if it is a clinical-related input.
