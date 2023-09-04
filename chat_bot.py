@@ -126,7 +126,7 @@ class gpt_bot(base_bot):
         system_prompt="You are ChatCAD-plus, a universal and reliable CAD system from ShanghaiTech. Respond conversationally"
         self.agent = Chatbot(engine=self.engine,api_key=self.api_key,system_prompt=system_prompt)
         # self.agent = Chatbot(engine=self.engine,api_key=self.api_key)
-        instruction="Act as a doctor named ChatCAD-plus. Unless specified."
+        instruction="Act as a doctor named ChatCAD-plus."
         res=self.chat_with_gpt(instruction)
         print(res)
         return 
@@ -134,7 +134,7 @@ class gpt_bot(base_bot):
         # pass
 
     def reset(self):
-        if self.agent is not None:
+        if self.agent is None:
             return
         else:
             self.agent.reset()
@@ -288,7 +288,7 @@ class gpt_bot(base_bot):
 
     def chat_en(self,message: str, ref_record: str):
         # check if it is a clinical-related input.
-        check_prompt="Is user's input asking about medical domain problems? Reply 1 if yes, reply 0 if no or not sure. The length of response is 1, please do not include any other unnecessary responses."
+        check_prompt="Is user's input asking about medical domain problem? Respond 1 if yes, respond 0 if no or not sure. Make sure the length of response is 1, and please do not include any other unnecessary responses."
         check_message=self.chat_with_gpt(f'{ref_record}{check_prompt}\n{message}')
         # check_message=self.chat_with_gpt(check_prompt+'\n'+message)
         print(f"check message: {check_message}")
