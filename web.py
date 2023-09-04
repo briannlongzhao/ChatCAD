@@ -35,7 +35,7 @@ def chatcad(history, message_history):
         # response = '''**That's cool!**'''
         if isinstance(history[-1][0],str):
             prompt=history[-1][0]
-            response = chatbot_bindings.chat(prompt,ref_record)
+            response = chatbot_bindings.chat_en(prompt,ref_record)
             message_history += [{"role": "user", "content": user_message}]
         else:
             # response,modality = chatbot_bindings.report_en(history[-1][0]['name'])
