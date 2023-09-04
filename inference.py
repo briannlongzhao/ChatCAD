@@ -1,3 +1,4 @@
+import os
 from chat_bot import gpt_bot
 import nibabel as nib
 
@@ -12,6 +13,6 @@ chatbot.start()
 
 image_path = "imgs/examples/chest.jpg"
 
-report = report_en(image_path)
+report = chatbot.report_en(image_path)
 
 print(report)
