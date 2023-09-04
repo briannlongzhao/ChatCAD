@@ -179,9 +179,9 @@ class gpt_bot(base_bot):
         converter=prob2text(prob,fivedisease)
         # default setting: promptB
         res=converter.promptB()
-        prompt_report_en=res+" Network B generated report:"+text_report
-        awesomePrompt_en="\nRefine the report of Network B based on results from Network A. Please do not mention Network A and \
-            Network B. Suppose you are a doctor writing findings for a chest x-ray report."
+        prompt_report_en=res+" Network B generated report: "+text_report
+        awesomePrompt_en="\nRefine the report of Network B based on results from Network A. Please do not mention Network A or \
+            Network B in your response. Suppose you are a doctor writing findings for a chest x-ray report."
         prompt_report_en=prompt_report_en+awesomePrompt_en
         print("Refine CXR reports...")
         refined_report = self.chat_with_gpt(prompt_report_en)
