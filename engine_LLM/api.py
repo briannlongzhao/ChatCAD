@@ -280,8 +280,9 @@ def answer_quest(quest: str,api_key: str,topic_base_dict: list):#,topic):
 
 
 def query_range(model, query: str,k:int=3,bar=0.6):
-    msd=json.load(open("./engine_LLM/dataset/disease_info.json","r",encoding='utf-8'))
-    emb_d = pkl.load(open('./engine_LLM/dataset/MSD.pkl','rb'))
+    cwd=os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
+    msd=json.load(open(os.path.join(cwd,"engine_LLM/dataset/disease_info.json"),"r",encoding='utf-8'))
+    emb_d = pkl.load(open(os.path.join(cwd,'engine_LLM/dataset/MSD.pkl'),'rb'))
     embeddings=[]
     for key,value in emb_d.items():
         embeddings.append(value)
