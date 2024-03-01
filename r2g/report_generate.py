@@ -1,7 +1,8 @@
+from argparse import Namespace
 from r2g.models import BaseCMNModel
 from r2g.modules.tokenizers import Tokenizer
 from r2g.modules.generator import Generator
-
+from r2g.modules.generator_otter import GeneratorOtter
 
 
 def reportGen():
@@ -38,7 +39,26 @@ def reportGen():
         }
     tokenizer = Tokenizer(cfg)
     model = BaseCMNModel(cfg, tokenizer)
-    generator= Generator(cfg, model)
+    generator = Generator(cfg, model)
+    return generator
+
+
+def reportGenOtter():
+    cfg = Namespace(
+        vision_encode_mode="llama_adapter_concat",
+        num_vision_token=225,
+        downsample_frame=0,
+        dataset_type="mimic_cxr",
+        medical_vision_encoder_path="/scratch/xinyangjiang/pretrained/biovil_image_resnet50_proj_size_128.pt",
+        pretrained_model_name_or_path="./weights/mimic_cxr_final_weights.pt",
+        precision="fp16",
+        med_patch_image_size=480,
+        n_beams=4,
+        max_length=500,
+        patch_image_size=224,
+        num_images_per_sample=2,
+    )
+    generator = GeneratorOtter(cfg)
     return generator
 
 

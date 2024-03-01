@@ -1,6 +1,7 @@
 from curses import KEY_LEFT
 import os
 import json
+import sys
 import pickle as pkl
 import numpy as np
 from tqdm import tqdm
@@ -53,7 +54,55 @@ def get_rules():
     # 请打印刚才查询到的医学知识，这些知识应当对"{quest}"可能有帮助。不要打印别的内容。
     # '''
     return locals()
-global_rules=get_rules()
+
+def get_rules_en():
+    '''Add your questing rules here.
+    '''
+    # feature_list=["症状和体征","诊断","预后","治疗"]
+    info_head="overview"
+    no="'s'"
+    identity="librarian"
+    found="{identity} found"
+    not_found="{identity} needs additional information"
+
+    query_1='''
+    I want you to act as a virtual {identity}. Different from doctors who give diagnostic result, {identity} does not have any medical knowledge or experience, and cannot answer patient's question. Therefore, please forget your medical knowledge. Now you must refer to the medical knowledge that is most likely helpful for the patient's problems from the knowledge base. I will play the role of a knowledge base, telling you about medical knowledge and topics that can be queried. You need to select a query topic from the options I have provided, and I will tell you about new medical knowledge and new topics that can be queried. Please repeat the above process until you believe that the medical knowledge you have obtained from me may be helpful for patients' questions. Then, please tell me '{found}'. Please notice, you are a {identity}. You are unable to answer the patient's question, you must select a topic of medical knowledge from the options provided in the knowledge base I am playing to query. The patient's question is: '{quest}' You need to try to search for knowledge related to this issue.
+
+    Now, you must choose one of the following topic options and reply to me with the most likely helpful topic:  
+    {topic_list}
+    Note that you are not allowed to answer patients' questions, respond to other content, provide suggestions, or respond to the reasons, explanations, or assumptions behind your choices. You are only allowed to select one query from the topic options provided by the knowledge base I am playing. Reply only to the name of the topic option you want to query.
+    '''
+
+    query_topic1='''
+    If you believe you have obtained the medical knowledge that helps answer "{quest}", please tell me '{found}'. If not, you must choose one of the following topic options and reply to me with the most likely helpful topic:  
+    {topic_list} '{not_found}'
+    Just reply with the name of the option you want to query, and there is no need to reply to any other content.
+    '''
+
+    query_topic2='''
+    If you believe you have obtained the medical knowledge that helps answer "{quest}", please tell me '{found}'. If not, ypu must tell me '{not_found}'. Just reply with the name of the option you want to query, and there is no need to reply to any other content.
+    '''
+
+    query_2='''
+    Good job!
+    The medical domain knowledge you found is:
+    \'''
+    {knowledge}
+    \'''
+    {query_topic}
+    '''
+
+    #v2.5
+    query_res=''' 
+    Please tell me which medical knowledge you just inquired about may be helpful for '{quest}'? Please print\'''original content, and do not print any other things.
+    '''
+
+     #v3
+    # query_res='''
+    # 请打印刚才查询到的医学知识，这些知识应当对"{quest}"可能有帮助。不要打印别的内容。
+    # '''
+    return locals()
+global_rules=get_rules_en()
 
 def format_query(query,verbose=False,**kwargs):
     # format_pool={
@@ -100,7 +149,8 @@ class Chat_api:
     
     def get_res(self,max_connection_try=5,fail_sleep_time=10):
         res=None
-        for i in range(max_connection_try):
+        # for i in range(max_connection_try):
+        while True:
             try:
                 res=self.chatbot.ask(self.now_query)
                 break
