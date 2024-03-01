@@ -84,7 +84,8 @@ class gpt_bot(base_bot):
         self.agent=None
         self.engine=engine
         self.api_key=api_key
-        img_model,imgcfg=JFinit('./cxr/config/JF.json','./weights/JFchexpert.pth')
+        cwd = os.path.dirname(os.path.realpath(__file__))
+        img_model,imgcfg=JFinit(os.path.join(cwd, 'cxr/config/JF.json'),os.path.join(cwd, 'weights/JFchexpert.pth'))
         self.imgcfg=imgcfg
         self.img_model=img_model
         self.reporter=reportGen()
