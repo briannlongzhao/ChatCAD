@@ -6,9 +6,10 @@ from r2g.modules.generator_otter import GeneratorOtter
 
 
 def reportGen():
+    cwd=os.apth.dirname(os.path.dirname(os.path.realpath(__file__)))
     cfg={
         "visual_extractor":"resnet101",
-        "ann_path":"./r2g/annotation.json",
+        "ann_path":os.path.join(cwd, "r2g/annotation.json"),
         "threshold":10,
         "cmm_dim":512,
         "cmm_size":2048,
@@ -31,7 +32,7 @@ def reportGen():
         "sample_n":1,
         "beam_size":3,
         "temperature":1.0,
-        "load":'./weights/r2gcmn_mimic-cxr.pth',
+        "load":os.path.join(cwd, 'weights/r2gcmn_mimic-cxr.pth'),
         "group_size":1,
         "output_logsoftmax":1,
         "decoding_constraint":0, 
