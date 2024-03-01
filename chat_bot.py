@@ -95,7 +95,7 @@ class gpt_bot(base_bot):
         self.identifier=ModalityClip(self.modality)
         # self.dental_net = PAN(dental_config)
         self.sent_model = SentenceModel()
-        self.msd_dict=json.load(open('./engine_LLM/dataset/msd_dict.json','r',encoding='utf-8'))
+        self.msd_dict=json.load(open(os.path.join(cwd,'engine_LLM/dataset/msd_dict.json'),'r',encoding='utf-8'))
         self.classifier_result_dir = Path("classifier_result")
         if not os.path.isdir(self.classifier_result_dir):
             os.makedirs(self.classifier_result_dir)
