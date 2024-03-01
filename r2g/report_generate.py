@@ -1,3 +1,4 @@
+import os
 from argparse import Namespace
 from r2g.models import BaseCMNModel
 from r2g.modules.tokenizers import Tokenizer
