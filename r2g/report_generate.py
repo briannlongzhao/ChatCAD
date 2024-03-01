@@ -7,7 +7,7 @@ from r2g.modules.generator_otter import GeneratorOtter
 
 
 def reportGen():
-    cwd=os.apth.dirname(os.path.dirname(os.path.realpath(__file__)))
+    cwd=os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
     cfg={
         "visual_extractor":"resnet101",
         "ann_path":os.path.join(cwd, "r2g/annotation.json"),
