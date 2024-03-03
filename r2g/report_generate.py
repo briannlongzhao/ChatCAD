@@ -52,7 +52,7 @@ def reportGenOtter():
         downsample_frame=0,
         dataset_type="mimic_cxr",
         medical_vision_encoder_path="/scratch/xinyangjiang/pretrained/biovil_image_resnet50_proj_size_128.pt",
-        pretrained_model_name_or_path="./weights/mimic_cxr_final_weights.pt",
+        pretrained_model_name_or_path="weights/mimic_cxr_final_weights.pt",
         precision="fp16",
         med_patch_image_size=480,
         n_beams=4,

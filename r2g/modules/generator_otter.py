@@ -30,7 +30,8 @@ class GeneratorOtter():
         self.model.lang_encoder.resize_token_embeddings(len(self.model.text_tokenizer))
         self.model.init_medical_vision_encoder(self.cfg)
         self.model.init_medical_roi_extractor(self.cfg)
-        ckpt = torch.load(self.cfg.pretrained_model_name_or_path, map_location=self.model.device)
+        cwd = os.getcwd()
+        ckpt = torch.load(os.path.join(cwd, "ChatCAD", self.cfg.pretrained_model_name_or_path), map_location=self.model.device)
         if "model_state_dict" in ckpt.keys():
             ckpt = ckpt["model_state_dict"]
         missing_keys, unexpected_keys = self.model.load_state_dict(ckpt, strict=False)
