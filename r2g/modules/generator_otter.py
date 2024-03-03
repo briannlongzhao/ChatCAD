@@ -1,5 +1,6 @@
 from argparse import Namespace
 import sys
+import os
 import torch
 import numpy as np
 from pathlib import Path
@@ -95,6 +96,7 @@ class GeneratorOtter():
                 attention_mask=torch.ones(input_ids.shape, dtype=torch.int32, device=self.model.device),
                 max_new_tokens=512,
                 num_beams=self.cfg.n_beams,
+                label_only=False
             )
             # print(time.time()-start)
 
