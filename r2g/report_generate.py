@@ -49,6 +49,7 @@ def reportGenOtter():
     cfg = Namespace(
         vision_encode_mode="llama_adapter_concat",
         vision_encoder_type="biovil",
+        med_pos_emb="sin",
         num_vision_token=225,
         downsample_frame=0,
         dataset_type="mimic_cxr",
