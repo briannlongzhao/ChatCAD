@@ -58,7 +58,7 @@ def reportGenOtter():
         precision="fp16",
         med_patch_image_size=480,
         n_beams=4,
-        max_length=500,
+        max_length=700,
         patch_image_size=224,
         num_images_per_sample=2,
     )
