@@ -199,8 +199,8 @@ def answer_quest(quest: str,api_key: str,topic_base_dict: list):#,topic):
 
 
     feature_list,info_head,no,quest,topic,identity,found,not_found,query_1,query_topic1,query_topic2,query_2,query_res=global_rules.get('feature_list'),global_rules.get('info_head'),global_rules.get('no'),global_rules.get('quest'),global_rules.get('topic'),global_rules.get('identity'),global_rules.get('found'),global_rules.get('not_found'),global_rules.get('query_1'),global_rules.get('query_topic1'),global_rules.get('query_topic2'),global_rules.get('query_2'),global_rules.get('query_res')
-
-    infobase=json.load(open(f"./engine_LLM/dataset/disease_info.json","r",encoding="utf-8"))
+    cwd=os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
+    infobase=json.load(open(os.path.join(cwd,"engine_LLM/dataset/disease_info.json"),"r",encoding="utf-8"))
 
     
     chatapi=Chat_api(api_key=api_key, verbose=True)
