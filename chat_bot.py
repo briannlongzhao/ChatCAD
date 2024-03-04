@@ -128,7 +128,7 @@ class gpt_bot(base_bot):
             try:
                 if "revChatGPT" in str(self.agent.__class__):
                     message=self.agent.ask(prompt)
-                elif "AzureOpenAI" in str(self.agent.__class__lass):
+                elif "AzureOpenAI" in str(self.agent.__class__):
                     message = [
                         {"role": "system", "content": self.system_prompt},
                         {"role": "user", "content": prompt}
