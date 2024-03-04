@@ -158,7 +158,7 @@ class gpt_bot(base_bot):
         self.agent = Chatbot(engine=self.engine,api_key=self.api_key,system_prompt=system_prompt)
         # self.agent = Chatbot(engine=self.engine,api_key=self.api_key)
         instruction="Act as a doctor named ChatCAD-plus."
-        res=self.chat_with_gpt(instruction)"revChatGPT" in str(self.agent.__class__)
+        res=self.chat_with_gpt(instruction)
         print(res)
         return 
 
