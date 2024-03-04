@@ -17,6 +17,7 @@ from pathlib import Path
 
 from r2g.modules.generator import Generator
 from r2g.modules.generator_otter import GeneratorOtter
+from openai import AzureOpenAI
 
 
 class MyEncoder(json.JSONEncoder):
@@ -125,7 +126,21 @@ class gpt_bot(base_bot):
             iteration+=1
             print(f"talking {iteration}......")
             try:
-                message=self.agent.ask(prompt)
+                if "revChatGPT" in str(self.agent.__class__):
+                    message=self.agent.ask(prompt)
+                elif "AzureOpenAI" in str(self.agent.__class__lass):
+                    message = self.agent.chat.completions.create(
+                        model=self.engine.replace('.',''),
+                        messages=prompt,
+                        temperature=0.7,
+                        max_tokens=800,
+                        top_p=0.95,
+                        frequency_penalty=0,
+                        presence_penalty=0,
+                        stop=None,
+                    ).choices[0].message.content
+                else:
+                    raise NotImplementedError
             except Exception as e:
                 print(e)
                 time.sleep(10)
@@ -143,11 +158,20 @@ class gpt_bot(base_bot):
         self.agent = Chatbot(engine=self.engine,api_key=self.api_key,system_prompt=system_prompt)
         # self.agent = Chatbot(engine=self.engine,api_key=self.api_key)
         instruction="Act as a doctor named ChatCAD-plus."
-        res=self.chat_with_gpt(instruction)
+        res=self.chat_with_gpt(instruction)"revChatGPT" in str(self.agent.__class__)
         print(res)
         return 
 
-        # pass
+
+    def start_azure(self):
+        self.agent = None
+        system_prompt="You are ChatCAD-plus, a universal and reliable CAD system from ShanghaiTech. Respond conversationally"
+        self.agent = AzureOpenAI(
+            azure_endpoint=os.environ.get("ENDPOINT_URL"), 
+            api_key=self.api_key,
+            api_version=os.environ.get("API_VERSION"), 
+        )
+
 
     def reset(self):
         if self.agent is None:
