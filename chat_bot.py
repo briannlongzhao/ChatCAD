@@ -129,9 +129,13 @@ class gpt_bot(base_bot):
                 if "revChatGPT" in str(self.agent.__class__):
                     message=self.agent.ask(prompt)
                 elif "AzureOpenAI" in str(self.agent.__class__lass):
+                    message = [
+                        {"role": "system", "content": self.system_prompt},
+                        {"role": "user", "content": prompt}
+                    ]
                     message = self.agent.chat.completions.create(
                         model=self.engine.replace('.',''),
-                        messages=prompt,
+                        messages=message,
                         temperature=0.7,
                         max_tokens=800,
                         top_p=0.95,
@@ -165,7 +169,7 @@ class gpt_bot(base_bot):
 
     def start_azure(self):
         self.agent = None
-        system_prompt="You are ChatCAD-plus, a universal and reliable CAD system from ShanghaiTech. Respond conversationally"
+        self.system_prompt="You are ChatCAD-plus, a universal and reliable CAD system from ShanghaiTech. Respond conversationally"
         self.agent = AzureOpenAI(
             azure_endpoint=os.environ.get("ENDPOINT_URL"), 
             api_key=self.api_key,
